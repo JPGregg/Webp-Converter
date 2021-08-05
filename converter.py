@@ -6,22 +6,19 @@ Copies every .webp file to .png from "start_directory" on down.
 
 import os
 import subprocess
-from tkinter import Tk, filedialog, messagebox
+from tkinter import Tk, filedialog
 
 root = Tk()
 root.withdraw()
+#This keeps the automatic tk window from opening.
 
-converter_location = filedialog.askopenfile(title = "Select dwebp.exe file")
-converter_location = converter_location.name
+converter_location = filedialog.askopenfile(title = "Select dwebp.exe file").name
 start_directory = str(filedialog.askdirectory(title = "Select starting directory for picture conversion"))
-print(converter_location)
-
-#converter_location = 'C:\\Users\\gregg\\OneDrive\\Desktop\\VSCode Stuff\\Webp_to_Png\\libwebp-1.2.0-windows-x64\\bin\\dwebp'
-#start_directory = 'C:\\Users\\gregg\\OneDrive\\Desktop\\testFolder'
+#opens manual file & folder selection windows.
 
 if converter_location.endswith("dwebp.exe"):
     for dirpath, dirnames, filenames in os.walk(start_directory):
-        for file in filenames:
+        for file in filenames: #prime candidate for optimization later on. O(n**2) is garbage...but works.
             if file.endswith(".webp"):           
                 webp_file_location = dirpath + '\\' + file
                 png_file = dirpath + '\\' + file.replace(".webp", ".png")
